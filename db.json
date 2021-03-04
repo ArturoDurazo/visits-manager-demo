@@ -1,0 +1,22 @@
+{
+  "visits": [
+    {
+      "id": "1",
+      "text": "Arturo Durazo",
+      "day": "Saturday, 12:00 pm",
+      "reminder": true
+    },
+    {
+      "id": "2",
+      "text": "Estefana Munoz",
+      "day": "Friday, 2:00 pm",
+      "reminder": true
+    },
+    {
+      "id": "3",
+      "text": "Martin Padilla",
+      "day": "Thursday, 6:00 pm",
+      "reminder": true
+    }
+  ]
+}
