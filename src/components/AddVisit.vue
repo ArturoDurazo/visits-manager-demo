@@ -27,6 +27,7 @@ export default {
     name: 'AddVisit',
     data() {
       return {
+        id: '',
         text: '',
         day: '',
         reminder: false
@@ -42,7 +43,7 @@ export default {
 
         const newVisit = {
           //if this was a real thing, we would use a backend, not random
-          //id: Math.floor(Math.random() * 100000),
+          id: Math.floor(Math.random() * 100000),
           text: this.text,
           day: this.day,
           reminder: this.reminder

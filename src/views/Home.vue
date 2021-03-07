@@ -30,60 +30,48 @@ export default {
     };
   },
   methods: {
-    async addVisit(visit) {
-      const res = await fetch("api/visits", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(visit),
-      });
-      const data = await res.json();
-      this.visits = [...this.visits, data];
-    },
-    async deleteVisit(id) {
-      if (confirm("Are you sure?")) {
-        const res = await fetch(`api/visits/${id}`, {
-          method: "DELETE",
-        });
-        res.status === 200
-          ? (this.visits = this.visits.filter((visit) => visit.id !== id))
-          : alert("Error deleting task");
+    addVisit(visit) {
+      var data = this.$localStorage.get('visits')
+      if (data != null) {
+        data = [...data, visit]
+      } else {
+        data = [visit]
       }
+      this.$localStorage.set('visits', data)
+      this.visits = data;
     },
-    async toggleReminder(id) {
+    deleteVisit(id) {
+      var data = this.$localStorage.get('visits')
+      console.log("id: " + id)
+      console.log(data)
+      if (data != null) {
+        data = data.filter((visit) => visit.id !== id)
+      }
+      this.$localStorage.set('visits', data)
+      this.visits = data;
+    },
+    toggleReminder(id) {
       //get the task we want to toggle
-      const visitToToggle = await this.fetchVisit(id);
+      const visitToToggle = this.fetchVisit(id);
+      console.log(visitToToggle)
       //update it
-      const updatedVisit = {
-        ...visitToToggle,
-        reminder: !visitToToggle.reminder,
-      };
-      //send updated visit on put
-      const res = await fetch(`api/visits/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(updatedVisit),
-      });
-      const data = await res.json();
-      //change local array
-      this.visits = this.visits.map((visit) =>
-        visit.id === id ? { ...visit, reminder: data.reminder } : visit
+      var data = this.$localStorage.get('visits')
+      if (data != null) {
+        data = data.map((visit) =>
+        visit.id === id ? { ...visit, reminder: !visit.reminder } : visit
       );
+      }
+      this.$localStorage.set('visits', data)
+      this.visits = data;
     },
-    async fetchVisits() {
-      const res = await fetch("api/visits");
-
-      const data = await res.json();
+    fetchVisits() {
+      var data = this.$localStorage.get('visits')
       return data;
     },
-    async fetchVisit(id) {
-      const res = await fetch(`api/visits/${id}`);
-
-      const data = await res.json();
-      return data;
+    fetchVisit(id) {
+      var data = this.$localStorage.get('visits')
+      console.log(data)
+      return data.find(visit => visit.id === id);
     },
   },
   async created() {
