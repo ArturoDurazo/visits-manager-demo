@@ -7,6 +7,6 @@ The app consists of a listing of people who will visit you. You can set up their
 
 To run it locally just run
 ```
-npm run install
+npm install
 npm run serve
 ```
